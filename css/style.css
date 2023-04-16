@@ -1,0 +1,99 @@
+html {
+    box-sizing: border-box;
+}
+
+*, 
+::after,
+::before {
+    box-sizing: inherit;
+}
+
+body {
+    background-color: antiquewhite;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.start-word__input {
+    outline: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.game-field {    
+    display: grid;
+    margin: 0 auto;
+    grid: repeat(2, auto) / repeat(5, auto);
+    gap: 1px;
+}
+
+.litera {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(151, 86, 7);
+    color: aliceblue;
+    border-radius: 5px;
+    text-align: center;
+    outline: none;
+}
+
+.litera.active {
+    border: 2px solid red;
+    background-color: rgb(163, 138, 107);
+}
+
+.select-word, .check-word, .start-word__btn, .next {
+    padding: 15px 20px;
+    cursor: pointer;
+    background-color: blue;
+    color: aliceblue;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    outline: none;
+}
+
+.select-word, .check-word {
+    margin-top: 5px;
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+
+.select-word:hover,
+.start-word__btn:hover,
+.check-word:hover,
+.next:hover {
+    transform: scale(1.09);
+}
+
+.rezult {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 20px;
+    justify-content: center;
+    width: 50%;
+}
+
+.word-field, .points {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    background-color: transparent;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 10px;
+}
