@@ -14,7 +14,7 @@ const $field = document.createElement('form'),                  //Объявле
     $next = document.createElement('button');
 let newWord = [];                                               //Массив для новых слов
 let literaArr = [];                                             //Массив букв нового слова     
-let wordplayer1 = [], wordplayer2 = [];
+let wordsPlayer1 = [], wordsPlayer2 = [];
 let player = 1;
 //Отрисовка игрового поля с введенным словом
 $form.addEventListener('submit', (event) => {
@@ -30,7 +30,7 @@ $form.addEventListener('submit', (event) => {
     else {
         $text.textContent = 'Введите одну букву в любую свободную ячейку';
         $form.style.display = 'none';
-        createdField(1, 2, wordBegin);
+        createdField(wordsPlayer1, wordsPlayer2, wordBegin);
     };   
 });
 
@@ -101,10 +101,11 @@ function tableRow(word) {
     return $rezaltTableItem;
 };
 
-//Создание игрового поля
-function createdField(player1 = 1, player2 = 2, arr) {
-    let copyArr = arr;
 
+//Создание игрового поля
+function createdField(words1, words2, arr) {
+    let copyArr = arr;
+    
     $fieldContainer.innerHTML = '';
 
     for (const i of copyArr) {           
@@ -129,7 +130,7 @@ function createdField(player1 = 1, player2 = 2, arr) {
     $fieldbox.append($field, $btnCheckWord, $next);
     $fieldbox.classList.add('field__box');
     $fieldContainer.classList.add('field__container');
-    $fieldContainer.append(rezultPlayer(player1), $fieldbox,  rezultPlayer(player2));
+    $fieldContainer.append(rezultPlayer(1, words1), $fieldbox,  rezultPlayer(2, words2));
     $container.append($fieldContainer);
 
     //return $field;
@@ -152,58 +153,93 @@ $field.addEventListener('input', (el) => {
 $field.addEventListener('submit', (e) => {
     e.preventDefault();
        newWord = '';
-
+    literaArr = []
     if ($btnCheckWord) {
         $text.textContent = '';
     };       
     $text.textContent = 'Выделите слово. Буквы должны распологаться в соседних ячейках';   
     $btnCheckWord.classList.remove('disabled');
-    $btnCheckWord.disabled = false;           
+    $btnCheckWord.disabled = false;   
+    $btnSelectWord.disabled = true;
+    $btnSelectWord.classList.add('disabled');        
 
     //Выделение слова
     document.querySelectorAll('.litera').forEach(el => {        
-        el.addEventListener('click', () => {            
-            //el.classList.remove('active');
+        el.addEventListener('click', () => {              
             el.classList.toggle('active'); 
             literaArr.push(el.value); 
-            $text.textContent = 'Нажмите на кнопку "Проверить слово"';                      
+            $text.textContent = 'Нажмите на кнопку "Проверить слово"';                               
         });  
     });      
 });
 
+
 //Кнопка Проверка слова
 $btnCheckWord.addEventListener('click', () => {
     newWord = literaArr.join('')
+    console.log('p', player);
     $text.textContent = '';
-  
+   
+   if (player == 1) {
+    wordsPlayer1.push(newWord)  
+    // document.querySelectorAll('.rezalt-table__list').forEach( e => {
+    //     if (e.dataset.player == 1) e.append(tableRow(wordsPlayer1))
+    // })  
+   }
+   else {    
+    console.log('object');
+    wordsPlayer2.push(newWord);  
+    // document.querySelectorAll('.rezalt-table__list').forEach( e => {
+    //     if (e.dataset.player == 2) e.append(tableRow(wordsPlayer2))
+    // })   
+}
     document.querySelectorAll('.rezalt-table__list').forEach( e => {
-        if (e.dataset.player == player) e.append(tableRow(newWord))
+        if (e.dataset.player == 1) e.append(tableRow(wordsPlayer1))
+        if (e.dataset.player == 2) e.append(tableRow(wordsPlayer2))
     })
+        
+    // document.querySelectorAll('.rezalt-table__list').forEach( e => {
+    //     //console.log(`wordsPlayer + e.dataset.player`);
+    //    // if (e.dataset.player == 1) e.append(tableRow(wordsPlayer1))
+    //    //else e.append(tableRow(wordsPlayer2))
+       
+    //    e.append(tableRow(wordsPlayer1))
+    // })
+    $btnCheckWord.classList.add('disabled');
+    $btnCheckWord.disabled = true;
+
     $text.textContent = 'Ход переходит к следующему игроку. Нажмите кнопку "Следующая буква"'; 
     $next.disabled = false;   
     $next.classList.remove('disabled');
-    $btnSelectWord.disabled = true;
-    $btnSelectWord.classList.add('disabled');
+    
 });
 
+
 //Кнопка Следущая буква
-$next.addEventListener('click', () => {
+$next.addEventListener('click', () => {    
+    document.querySelectorAll('.litera').forEach(el => {
+        if (el.value != '') endGame()
+    });
+
     let arr = [];
-    
+   
     document.querySelectorAll('.litera').forEach(elem => {
         arr.push(elem.value);
         $text.textContent = 'Введите одну букву в любую свободную ячейку';
     });
-    $fieldContainer.remove()
+
+    $fieldContainer.remove();
     $fieldContainer.innerHTML = '';
-    createdField(1, 2, arr);            
-    document.querySelectorAll('.litera').forEach(elem => {
-        e.setAttribute("readonly", false);        
-    });
+    $field.innerHTML = '';
+
+    createdField(wordsPlayer1, wordsPlayer2, arr);          
+    // document.querySelectorAll('.litera').forEach(elem => {
+    //     e.setAttribute("readonly", false);        
+    // });
 
     if (player == 1) player +=1
     else player -=1
-    //console.log('object', player);
+    
 });
 
 function start() {
@@ -222,4 +258,14 @@ function start() {
 };
 
 $btnStart.onclick = start;
+//Конец игры
+function endGame() {
+    $text.textContent = ''
+    $fieldContainer.innerHTML = '';
+    $field.innerHTML = ''
+    const $end = document.createElement('div');
 
+    $end.classList.add('splash__word')
+    $end.textContent = 'END';
+    $fieldContainer.append($end)
+}
