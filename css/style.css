@@ -12,8 +12,18 @@ body {
     background-color: antiquewhite;
 }
 
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
 .container {
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
     max-width: 1200px;
 }
 
@@ -22,6 +32,16 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-200px);
+    transition: transform 0.5s linear, visibility 0.5s linear, opacity 0.5s linear;
+}
+
+.header-container.active {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .start-word__input {
@@ -30,29 +50,88 @@ body {
     padding: 5px 10px;
 }
 
+.field__container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 100px;
+}
+
+.field__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 .game-field {    
     display: grid;
     margin: 0 auto;
     grid: repeat(2, auto) / repeat(5, auto);
-    gap: 1px;
+    gap: 2px;
 }
 
 .litera {
-    width: 40px;
-    height: 40px;
-    background-color: rgb(151, 86, 7);
+    width: 50px;
+    height: 50px;
+    background-color: rgb(170, 102, 20);
     color: aliceblue;
+    font-size: 26px;
     border-radius: 5px;
     text-align: center;
     outline: none;
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
 }
+
+/* .litera:nth-child(1n) {
+    transform: translateX(-100vh);
+}  
+
+.litera:nth-child(2*n) {
+    transform: translateY(100vh);
+}
+
+.litera:nth-child(3*n) {
+    transform: translateX(100vh);
+}
+
+.litera:nth-child(4*n) {
+    transform: translateY(-100vh);
+}
+
+.litera:nth-child(5*n) {
+    transform: translateY(-100vh) translateX(100vh);
+}
+
+/* .litera:nth-child(1n).open {
+    transform: translateX(100vh);
+} 
+
+.litera:nth-child(2n).open {
+    transform: translateY(-100vh);
+
+}
+
+.litera:nth-child(3n).open {
+    transform: translateX(-100wr);
+}
+
+.litera:nth-child(4n).open {
+    transform: translateY(100vh);
+}
+
+.litera:nth-child(5n).open {
+    transform: translateY(100vh) translateX(-100vh);
+}*/
 
 .litera.active {
     border: 2px solid red;
     background-color: rgb(163, 138, 107);
 }
 
-.select-word, .check-word, .start-word__btn, .next {
+.select-word, .check-word, .start-word__btn, .next, #start {
     padding: 15px 20px;
     cursor: pointer;
     background-color: blue;
@@ -72,7 +151,8 @@ body {
 .select-word:hover,
 .start-word__btn:hover,
 .check-word:hover,
-.next:hover {
+.next:hover,
+#start:hover {
     transform: scale(1.09);
 }
 
@@ -96,4 +176,88 @@ body {
     color: #000;
     border: 2px solid #000;
     border-radius: 10px;
+}
+
+.splash {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    gap: 10px;   
+}
+
+.splash__word {   
+    font-size: 164px;
+    color: blue;
+    transition: transform 0.5s linear;
+}
+
+.splash__word:nth-child(odd).active {
+    transform: translateY(-500px) rotate(180deg);
+}
+
+.splash__word:nth-child(even).active {
+    transform: translateY(100vh) rotate(-180deg);
+}
+
+#start {
+    font-size: 64px;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: none;
+}
+
+.text {
+    padding: 0;
+    margin: 0;
+    font-size: 36px;
+}
+
+.rezalt-table {
+    padding: 10px;
+    border: 3px solid #000;
+    border-radius: 20px;
+}
+
+.rezalt-table__title {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    font-size: 36px;
+    text-align: center;
+}
+
+.rezalt-table__list {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;    
+    justify-content: center;
+}
+
+.rezalt-table__item, 
+.rezalt-table__header {   
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #000;
+    width: 100%;
+}
+
+.text-table {    
+    font-size: 24px;
+}
+
+.item__word {
+    width: 53%;    
+}
+
+.table-title, .item__word {
+    padding: 0 10px;
+    border-right: 1px solid #000;
+}
+
+.player {
+    margin-left: 5px;
 }
